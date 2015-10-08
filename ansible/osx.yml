@@ -28,7 +28,7 @@
 
   - name: Create dev resolver file at /etc/resolver/dev
     file: >
-      src={{dev_env_dir}}/ansible/resolver-dev.conf
+      src={{root_dir}}/ansible/resolver-dev.conf
       dest=/etc/resolver/dev
       state=link
       force=yes
