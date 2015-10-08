@@ -34,3 +34,9 @@
       force=yes
     become: yes
     become_method: sudo
+
+  - name: Create and configure docker machine
+    command: sh {{root_dir}}/docker/docker_machine_setup.sh {{root_dir}} creates=~/.docker/machine/machines/dev/config.json
+
+  - name: Start base docker compose
+    command: docker-compose -f {{root_dir}}/docker/base_docker_compose.yml -p bootx up -d 

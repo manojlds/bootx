@@ -17,4 +17,4 @@ if [[ $? != 0 ]] ; then
   brew install ansible
 fi
 
-ansible-playbook ansible/osx.yml -i 127.0.0.1, --ask-become-pass -e root_dir=$CURRENT_DIR
+ansible-playbook ansible/osx.yml -i 127.0.0.1, --ask-become-pass -e root_dir=$CURRENT_DIR -v
