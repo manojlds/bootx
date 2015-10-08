@@ -7,11 +7,11 @@ if [[ $? != 0 ]] ; then
 else
   brew update
 fi
-echo -e "\n\n"
 
 echo "Installing or Updating Ansible"
 which -s ansible-playbook
 if [[ $? != 0 ]] ; then
   brew install ansible
 fi
-echo -e "\n\n"
+
+ansible-playbook ansible/osx.yml -i 127.0.0.1, --ask-become-pass
