@@ -40,8 +40,29 @@
     become: yes
     become_method: sudo
 
+  - name: Add NFS share to /etc/exports
+    lineinfile:
+      dest: /etc/exports
+      line: "{{ item }}"
+      create: yes
+    with_items:
+      - '\"/Users\" 192.168.99.100 -alldirs -mapall=0:80'
+    become: yes
+    become_method: sudo
+    register: exports
+
+  - name: Restart nfsd
+    command: sudo nfsd restart
+    become: yes
+    become_method: sudo
+    when: exports.changed
+
+  - name: Add Docker Machine Environment to .bash_profile
+    lineinfile:
+      dest: ~/.bash_profile
+      line: "source {{ root_dir }}/ansible/profile"
+      create: yes
+    when: ansible_env.SHELL == "/bin/bash"
+
   - name: Create and configure docker machine
     command: sh {{root_dir}}/docker/docker_machine_setup.sh {{root_dir}} creates=~/.docker/machine/machines/dev/config.json
-
-  - name: Start base docker compose
-    command: docker-compose -f {{root_dir}}/docker/base_docker_compose.yml -p bootx up -d
